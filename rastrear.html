@@ -1,0 +1,181 @@
+<!DOCTYPE html><html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema Comprometido</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Consolas, monospace;
+    }body {
+  background: black;
+  overflow: hidden;
+  color: #00ff00;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 140px;
+  flex-direction: column;
+  text-align: center;
+  animation: glitchBg 0.15s infinite;
+}
+
+h1 {
+  font-size: 4rem;
+  color: red;
+  text-shadow: 0 0 20px red;
+}
+
+p {
+  margin-top: 20px;
+  font-size: 1.3rem;
+  color: #00ff00;
+  max-width: 800px;
+  line-height: 1.6;
+}
+
+.terminal {
+  margin-top: 30px;
+  width: 80%;
+  max-width: 900px;
+  height: 220px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #00ff00;
+  padding: 15px;
+  overflow: hidden;
+  box-shadow: 0 0 20px #00ff00;
+}
+
+.line {
+  animation: typing 3s steps(40, end);
+  white-space: nowrap;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(2px, -2px); }
+  60% { transform: translate(-2px, -2px); }
+  80% { transform: translate(2px, 2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes glitchBg {
+  0% { background: rgba(0,0,0,0.7); }
+  50% { background: rgba(20,0,0,0.75); }
+  100% { background: rgba(0,0,0,0.7); }
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.warning {
+  margin-top: 20px;
+  color: red;
+  font-size: 1rem;
+  animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.dots::after {
+  content: '';
+  animation: dotsAnim 1.5s infinite steps(1);
+}
+
+@keyframes dotsAnim {
+  0% { content: '.'; }
+  33% { content: '..'; }
+  66% { content: '...'; }
+  100% { content: '.'; }
+}
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+}
+
+  </style>
+</head>
+<body>
+  <canvas id="matrix"></canvas>  <div class="overlay"><h1>VOCÊ FOI INVADIDO</h1>
+
+<p style="font-size: 1rem; color: #00ff00; margin-top: 30px;">
+  Rastreando sua localização<span class="dots"></span>
+</p>
+
+
+  
+</div>
+
+<div class="warning" style="position: absolute; bottom: 30px; font-size: 1.3rem; width: 100%; text-align: center; color: #00ff00; animation: none;">
+  hacked by: ! 𝐃𝐗
+</div>
+
+  </div>  <script>
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const letters = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&@';
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+
+    const drops = [];
+
+    for (let x = 0; x < columns; x++) {
+      drops[x] = 1;
+    }
+
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#00ff00';
+      ctx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 33);
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script></body>
+</html>
